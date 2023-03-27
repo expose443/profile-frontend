@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"html/template"
-	"io/ioutil"
 	"net/http"
+	"time"
 
 	"github.com/with-insomnia/profile-frontend/internal/model"
 )
@@ -51,10 +51,18 @@ func (h *Handlers) LoginPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer req.Body.Close()
-	b, err := ioutil.ReadAll(req.Body)
-	if err != nil {
-		ErrorHandler(w, http.StatusInternalServerError)
-		return
+
+	var token string
+	if req.StatusCode == http.StatusOK {
+		c := req.Cookies()
+		token = c[0].Value
+		http.SetCookie(w, &http.Cookie{
+			Expires:  time.Now().Add(time.Minute * 5),
+			Value:    token,
+			Name:     "jwt_token",
+			HttpOnly: true,
+		})
 	}
-	fmt.Println(string(b))
+	w.WriteHeader(req.StatusCode)
+	http.Redirect(w, r, "/", http.StatusFound)
 }
