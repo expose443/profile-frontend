@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/login.css">
+    <title>Project</title>
+</head>
+<body>
+    <h1>Make Project</h1>
+    <form action="/project" method="post">
+        <label for="title">Title<input type="text" name="title" id="title" placeholder="Title"></label>
+        <label for="desc">Description<input type="text" name="desc" id="desc" placeholder="Descritpion"></label>
+        <label for="git">GitHub<input type="text" name="git" id="git" placeholder="Github Link"></label>
+        <label for="image">Image<input type="text" name="image" id="image" placeholder="Image"></label>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

@@ -15,6 +15,9 @@ func main() {
 	h := handlers.NewHandler()
 	r.Get("/login", h.LoginGet)
 	r.Post("/login", h.LoginPost)
+	r.Get("/", h.ProjectGet)
+	r.Get("/project", h.CreateProject)
+	r.Post("/project", h.ProjectPost)
 	fs := http.FileServer(http.Dir("./ui/static/"))
 	r.Handle("/static/*", http.StripPrefix("/static", fs))
 
