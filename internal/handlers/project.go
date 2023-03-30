@@ -25,14 +25,7 @@ func (h *Handlers) ProjectGet(w http.ResponseWriter, r *http.Request) {
 		ErrorHandler(w, http.StatusInternalServerError)
 		return
 	}
-
-	w.Header().Set("Content-Type", "application/json")
-	err = json.NewEncoder(w).Encode(project)
-	if err != nil {
-		fmt.Println(err)
-		ErrorHandler(w, http.StatusInternalServerError)
-		return
-	}
+	renderTemplate(w, "index.html", project)
 }
 
 func (h *Handlers) ProjectPost(w http.ResponseWriter, r *http.Request) {
@@ -73,19 +66,26 @@ func (h *Handlers) ProjectPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer resp.Body.Close()
-	w.WriteHeader(resp.StatusCode)
+	if resp.StatusCode != http.StatusOK {
+		w.WriteHeader(resp.StatusCode)
+		return
+	}
 
 	http.Redirect(w, r, "/", http.StatusFound)
 }
 
 func (h *Handlers) CreateProject(w http.ResponseWriter, r *http.Request) {
-	template, err := template.ParseFiles("./ui/html/create-project-form.html")
+	renderTemplate(w, "create-project-form.html", nil)
+}
+
+func renderTemplate(w http.ResponseWriter, html string, data any) {
+	temp, err := template.ParseFiles("./ui/html/" + html)
 	if err != nil {
 		fmt.Println(err)
 		ErrorHandler(w, http.StatusInternalServerError)
 		return
 	}
-	err = template.Execute(w, nil)
+	err = temp.Execute(w, data)
 	if err != nil {
 		fmt.Println(err)
 		ErrorHandler(w, http.StatusInternalServerError)

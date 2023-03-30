@@ -62,7 +62,10 @@ func (h *Handlers) LoginPost(w http.ResponseWriter, r *http.Request) {
 			Name:     "jwt_token",
 			HttpOnly: true,
 		})
+
+	} else {
+		ErrorHandler(w, req.StatusCode)
+		return
 	}
-	w.WriteHeader(req.StatusCode)
 	http.Redirect(w, r, "/", http.StatusFound)
 }

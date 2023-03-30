@@ -4,9 +4,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style.css">
     <title>Home</title>
 </head>
 <body>
-    {{ . }}
+   <header>
+    <h1>Profile Projects</h1>
+   </header>
+
+   <div class="gallery">
+    {{ range . }}
+        <div class="project">
+            <p>ID: {{.ID}}</p>
+            <p>TITLE: {{.Title}}</p>
+            <p>Description: {{.Description}}</p>
+            <p>Author: {{.Author}}</p>
+            <p>Github: {{.GithubLink}}</p>
+            <p>Created: {{.Created}}</p>
+        </div>
+    {{end}}
+   </div>
 </body>
 </html>
